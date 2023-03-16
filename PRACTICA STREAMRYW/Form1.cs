@@ -12,14 +12,14 @@ using System.Windows.Forms;
 namespace PRACTICA_STREAMRYW
 {
     public partial class Form1 : Form
-    {
+    {       
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();           
         }
 
-        private void btnLeer_Click(object sender, EventArgs e)
-        {
+        private void btnLeer_Click(object sender, EventArgs e) 
+        {            
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "txt|*.txt";
             if (ofd.ShowDialog() != DialogResult.OK)
@@ -36,7 +36,7 @@ namespace PRACTICA_STREAMRYW
         private void btnEscribr_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "txt|*.txt";
+            sfd.Filter = "txt|*.txt"; 
             if (sfd.ShowDialog() != DialogResult.OK) 
             {
                 return; 
@@ -46,5 +46,30 @@ namespace PRACTICA_STREAMRYW
             sw.Close();
 
         }
+
+        private void btnBinario_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "txt|*.txt";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            StreamWriter sw = new StreamWriter(sfd.FileName);
+            string binaryString = ToBinary(ConvertToByteArray(richTxtBox.Text, Encoding.ASCII));
+            sw.Write(binaryString);
+            sw.Close();
+        }
+        public static byte[] ConvertToByteArray(string str, Encoding encoding)
+        {
+            return encoding.GetBytes(str);
+        }
+
+        public static String ToBinary(Byte[] data)
+        {
+            return string.Join(" ", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+        }
+
     }
 }
+
